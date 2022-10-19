@@ -16,5 +16,6 @@ module.exports = {
     'import/extensions': 0,
     'no-param-reassign': 0,
     'no-return-assign': 0,
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
   },
 };

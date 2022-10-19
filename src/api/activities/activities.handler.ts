@@ -1,20 +1,28 @@
 import { Request, Response } from 'express';
 import ParamsWithId from '../../interfaces/paramsWithId';
-import Activity from './activity.model';
+import Activity, { ActivityWithId } from './activities.model';
+import * as ActivityRepository from './activities.repository';
 
 export const findAll = async (
   req: Request,
-  res: Response<Activity[]>,
+  res: Response<ActivityWithId[]>,
 ) => {
-  res.json([]);
+  const activities = await ActivityRepository.getAllActivities();
+  res.json(activities);
 };
 
 export const findOne = async (
   req: Request<ParamsWithId>,
-  res: Response<Activity>,
+  res: Response<Activity | null>,
 ) => {
-  res.json({
-    name: 'test',
-    value: 1,
-  });
+  const activity = await ActivityRepository.getActivityById(req.params.id);
+  res.json(activity);
+};
+
+export const createOne = async (
+  req: Request<{}, {}, Activity>,
+  res: Response<ActivityWithId>,
+) => {
+  const result = await ActivityRepository.createActivities(req.body);
+  res.json(result);
 };
