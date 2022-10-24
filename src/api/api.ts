@@ -1,8 +1,12 @@
 import { Router } from 'express';
-import activityRouter from './activities/activities.routes';
+import ActivityRepositoryInterface from '../interfaces/ActivitiesRepository.interface';
+import ActivityRepository from './activities/activities.repository';
+
+import createActivitiesRouter from './activities/activities.routes';
 
 const router = Router();
+const dbRepository: ActivityRepositoryInterface = ActivityRepository;
 
-router.use('/activities', activityRouter);
+router.use('/activities', createActivitiesRouter(dbRepository));
 
 export default router;
