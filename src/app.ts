@@ -2,20 +2,23 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import cors from 'cors';
-import api from './api/api';
+import * as dotenv from 'dotenv';
+import createApi from './api/api';
 import notFound from './middlewares/notFound.middleware';
 import errorHandler from './middlewares/errorHandler.middleware';
+import ActivityRepositoryInterface from './interfaces/ActivitiesRepository.interface';
 
-require('dotenv').config();
+const createApp = (dbRepository: ActivityRepositoryInterface) => {
+  dotenv.config();
+  const app = express();
+  app.use(morgan('dev'));
+  app.use(helmet());
+  app.use(cors());
+  app.use(express.json());
+  app.use('/api', createApi(dbRepository));
+  app.use(notFound);
+  app.use(errorHandler);
+  return app;
+};
 
-const app = express();
-
-app.use(morgan('dev'));
-app.use(helmet());
-app.use(cors());
-app.use(express.json());
-app.use('/api', api);
-app.use(notFound);
-app.use(errorHandler);
-
-export default app;
+export default createApp;
