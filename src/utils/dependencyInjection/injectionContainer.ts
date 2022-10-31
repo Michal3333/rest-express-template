@@ -1,20 +1,27 @@
-class Container {
-  private static registry: Map<DependencyKey, any> = new Map();
+import ActivityRepositoryInterface from '../../interfaces/ActivitiesRepository.interface';
 
-  static register(key: DependencyKey, instance: any) {
+class Container {
+  private static registry: Map<PossibleDependenciesKeys,
+  PossibleDependencies[PossibleDependenciesKeys]> = new Map();
+
+  static register<Key extends PossibleDependenciesKeys>(
+    key: Key,
+    instance: PossibleDependencies[Key],
+  ) {
     if (!Container.registry.has(key)) {
       Container.registry.set(key, instance);
     }
   }
 
-  static get(key: DependencyKey) {
+  static get(key: PossibleDependenciesKeys) {
     return Container.registry.get(key);
   }
 }
 
-export enum DependencyKey {
-  ActivityRepository = 'ActivityRepository',
-  UserRepository = 'UserRepository',
-}
+export type PossibleDependencies = {
+  ActivityRepository: ActivityRepositoryInterface,
+};
+
+export type PossibleDependenciesKeys = keyof PossibleDependencies;
 
 export default Container;

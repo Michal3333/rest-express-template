@@ -8,23 +8,23 @@ const ActivitySchema = new Schema<Activity>({
   comment: { type: String, required: false },
 });
 
-export const ActivityModel = model<Activity>('Activity', ActivitySchema);
+class ActivityRepository implements ActivityRepositoryInterface {
+  private activityModel = model<Activity>('Activity', ActivitySchema);
 
-const ActivityRepository: ActivityRepositoryInterface = {
-  getAllActivities: async () => {
-    const activities = await ActivityModel.find();
-    return activities;
-  },
-
-  getActivityById: async (id: string) => {
-    const activity = await ActivityModel.findById(id);
+  public getActivityById = async (id: string) => {
+    const activity = await this.activityModel.findById(id);
     return activity;
-  },
+  };
 
-  createActivities: async (activity: Activity) => {
-    const result = await ActivityModel.create(activity);
+  public getAllActivities = async () => {
+    const activities = await this.activityModel.find();
+    return activities;
+  };
+
+  public createActivities = async (activity: Activity) => {
+    const result = await this.activityModel.create(activity);
     return result;
-  },
-};
+  };
+}
 
 export default ActivityRepository;

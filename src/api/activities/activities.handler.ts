@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import ActivityRepositoryInterface from '../../interfaces/ActivitiesRepository.interface';
 import ParamsWithId from '../../interfaces/paramsWithId';
-import { DependencyKey } from '../../utils/dependencyInjection/injectionContainer';
 import { injectable, inject } from '../../utils/dependencyInjection/injectionDecorator';
 import Activity, { ActivityWithId } from './activities.model';
 
@@ -10,7 +9,7 @@ class ActivityHandler {
   private activityRepository: ActivityRepositoryInterface;
 
   constructor(
-  @inject(DependencyKey.ActivityRepository) activityRepository?: ActivityRepositoryInterface,
+  @inject('ActivityRepository') activityRepository?: ActivityRepositoryInterface,
   ) {
     if (!activityRepository) {
       throw Error('No UserRepository provided or injected.');

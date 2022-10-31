@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Container, { DependencyKey } from './injectionContainer';
+import Container, { PossibleDependenciesKeys, PossibleDependencies } from './injectionContainer';
 
 export const injectable = () => <T extends { new (...args: any[]): {} }>(
   constructor: T): T | void => class extends constructor {
@@ -7,18 +7,18 @@ export const injectable = () => <T extends { new (...args: any[]): {} }>(
       if (args.length > 0) {
         throw Error('Unexpected arguments');
       }
-      const injections = (constructor as any).injections as DependencyKey[];
-      const injectedArgs: any[] = injections.map((key) => Container.get(key));
+      const injections = (constructor as any).injections as PossibleDependenciesKeys[];
+      const injectedArgs = injections.map((key) => Container.get(key));
       super(...injectedArgs);
     }
   };
 
-export const inject = (key: DependencyKey) => (
+export const inject = (key: PossibleDependenciesKeys) => (
   target: Object,
   propertyKey: string | symbol,
   parameterIndex: number,
 ) => {
-  const existingInjections: DependencyKey[] = (target as any).injections || [];
+  const existingInjections: PossibleDependenciesKeys[] = (target as any).injections || [];
   Object.defineProperty(target, 'injections', {
     enumerable: false,
     configurable: false,

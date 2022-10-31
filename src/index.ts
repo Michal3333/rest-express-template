@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 import * as dotenv from 'dotenv';
 import createApp from './app';
 import connectToDb from './utils/dbConnect';
-import ActivityRepositoryInterface from './interfaces/ActivitiesRepository.interface';
 import ActivityRepository from './api/activities/activities.repository';
-import Container, { DependencyKey } from './utils/dependencyInjection/injectionContainer';
+import Container from './utils/dependencyInjection/injectionContainer';
 
 dotenv.config();
 
@@ -14,20 +14,17 @@ const startServer = async () => {
   try {
     await connectToDb(connectionString);
 
-    /* eslint-disable no-console */
     console.log('connected to DB');
 
-    const dbRepository: ActivityRepositoryInterface = ActivityRepository;
-    Container.register(DependencyKey.ActivityRepository, dbRepository);
+    const activityRepository = new ActivityRepository();
+    Container.register('ActivityRepository', activityRepository);
 
     const app = createApp();
 
     app.listen(port, () => {
-      /* eslint-disable no-console */
       console.log(`Listening: http://localhost:${port}`);
     });
   } catch (error) {
-    /* eslint-disable no-console */
     console.log(error);
   }
 };
