@@ -1,33 +1,46 @@
 import { Request, Response } from 'express';
 import ActivityRepositoryInterface from '../../interfaces/ActivitiesRepository.interface';
 import ParamsWithId from '../../interfaces/paramsWithId';
+import { DependencyKey } from '../../utils/dependencyInjection/injectionContainer';
+import { injectable, inject } from '../../utils/dependencyInjection/injectionDecorator';
 import Activity, { ActivityWithId } from './activities.model';
 
-const createActivityHandler = (dbRepository: ActivityRepositoryInterface) => ({
-  findAll: async (
+@injectable()
+class ActivityHandler {
+  private activityRepository: ActivityRepositoryInterface;
+
+  constructor(
+  @inject(DependencyKey.ActivityRepository) activityRepository?: ActivityRepositoryInterface,
+  ) {
+    if (!activityRepository) {
+      throw Error('No UserRepository provided or injected.');
+    }
+    this.activityRepository = activityRepository;
+  }
+
+  public findAll = async (
     req: Request,
     res: Response<ActivityWithId[]>,
   ) => {
-    const activities = await dbRepository.getAllActivities();
+    const activities = await this.activityRepository.getAllActivities();
     res.json(activities);
-  },
+  };
 
-  findOne: async (
+  public findOne = async (
     req: Request<ParamsWithId>,
     res: Response<Activity | null>,
   ) => {
-    const activity = await dbRepository.getActivityById(req.params.id);
+    const activity = await this.activityRepository.getActivityById(req.params.id);
     res.json(activity);
-  },
+  };
 
-  createOne: async (
+  public createOne = async (
     req: Request<{}, {}, Activity>,
     res: Response<ActivityWithId>,
   ) => {
-    const result = await dbRepository.createActivities(req.body);
+    const result = await this.activityRepository.createActivities(req.body);
     res.json(result);
-  },
+  };
+}
 
-});
-
-export default createActivityHandler;
+export default ActivityHandler;

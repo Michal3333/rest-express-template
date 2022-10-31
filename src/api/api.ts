@@ -1,10 +1,9 @@
 import { Router } from 'express';
-import ActivityRepositoryInterface from '../interfaces/ActivitiesRepository.interface';
 import createActivitiesRouter from './activities/activities.routes';
 
-const createApi = (dbRepository: ActivityRepositoryInterface) => {
+const createApi = () => {
   const router = Router();
-  router.use('/activities', createActivitiesRouter(dbRepository));
+  router.use('/activities', createActivitiesRouter());
   return router;
 };
 
