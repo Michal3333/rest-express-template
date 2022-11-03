@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 import Activity from './activities.model';
-import ActivityRepositoryInterface from '../../interfaces/ActivitiesRepository.interface';
+import ActivityRepositoryInterface from '../../interfaces/activitiesRepository.interface';
 
 const ActivitySchema = new Schema<Activity>({
   name: { type: String, required: true },

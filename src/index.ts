@@ -1,24 +1,16 @@
 /* eslint-disable no-console */
 import * as dotenv from 'dotenv';
 import createApp from './app';
-import connectToDb from './utils/dbConnect';
-import ActivityRepository from './api/activities/activities.repository';
-import Container from './utils/dependencyInjection/injectionContainer';
+import Container from './utils/dependenciesControl/injectionContainer';
+import MongoCreator from './utils/depenedencyCreators.ts/mongoCreator';
 
 dotenv.config();
 
 const port = process.env.PORT || 5000;
-const connectionString = process.env.MONGO || '';
 
 const startServer = async () => {
   try {
-    await connectToDb(connectionString);
-
-    console.log('connected to DB');
-
-    const activityRepository = new ActivityRepository();
-    Container.register('ActivityRepository', activityRepository);
-
+    await Container.initDependencyContainer(new MongoCreator());
     const app = createApp();
 
     app.listen(port, () => {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ParamsWithId from '../../interfaces/paramsWithId';
+import ParamsWithId from '../../interfaces/paramsWithId.interface';
 import checkRequestData from '../../middlewares/checkRequestData.middleware';
 import { withTryCatch } from '../../middlewares/errorHandler.middleware';
 import Activity from './activities.model';
