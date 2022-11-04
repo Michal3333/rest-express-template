@@ -21,9 +21,19 @@ class Container {
     const depenedciesPromisses = depsToInit.map((depToInit) => depToInit.create());
     const dependecies = await Promise.all(depenedciesPromisses);
     dependecies.forEach((dep) => {
-      (Object.keys(dep) as (keyof PossibleDependencies)[])
-        .forEach((key) => Container.register(key, dep[key]!));
+      Container.pushObjectToContainer(dep);
     });
+  };
+
+  static initDependencyContainerWithObj = async (dep: PossibleDependencies) => {
+    Container.pushObjectToContainer(dep);
+  };
+
+  private static pushObjectToContainer = async (
+    dep: ConvertPropsToOptional<PossibleDependencies>,
+  ) => {
+    (Object.keys(dep) as (keyof PossibleDependencies)[])
+      .forEach((key) => Container.register(key, dep[key]!));
   };
 }
 
