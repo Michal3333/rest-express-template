@@ -7,10 +7,17 @@ import Container from '../utils/dependenciesControl/injectionContainer';
 import Activity from '../api/activities/activities.model';
 
 const mongoId = new mongoose.Types.ObjectId();
-const resultObject = {
+const validObjectToCreate = {
   name: 'test',
   comment: 'comment',
   value: 1,
+};
+const invalidObjectToCreate = {
+  name: 'test',
+  comment: 'comment',
+};
+const resultObject = {
+  ...validObjectToCreate,
   _id: mongoId,
 };
 const resultObjectWithIdAsSting = {
@@ -35,6 +42,9 @@ beforeAll(async () => {
   });
   app = createApp();
 });
+// afterAll(async () => {
+//   await app.close();
+// });
 
 describe('activities.handler', () => {
   describe('findAll', () => {
@@ -66,6 +76,46 @@ describe('activities.handler', () => {
     it('should return object provided by the repository', async () => {
       const { body } = await request(app).get(`/api/activities/${mongoId}`);
       expect(body).toEqual(resultObjectWithIdAsSting);
+    });
+  });
+
+  describe('createOne', () => {
+    it('should respond with an error because provided data is invalid', async () => {
+      const { status } = await request(app)
+        .put('/api/activities/')
+        .set('Accept', 'application/json')
+        .send(invalidObjectToCreate);
+      expect(status).toBe(500);
+    });
+    it('should respond with status 200', async () => {
+      const { status } = await request(app)
+        .put('/api/activities/')
+        .set('Accept', 'application/json')
+        .send(validObjectToCreate);
+      expect(status).toBe(200);
+    });
+    it('should call createActivities once', async () => {
+      await request(app)
+        .put('/api/activities/')
+        .set('Accept', 'application/json')
+        .send(validObjectToCreate);
+      expect(mockedActivityRepository.createActivities.mock.calls.length).toBe(1);
+    });
+    it('should call createActivities with object provided in body', async () => {
+      await request(app)
+        .put('/api/activities/')
+        .set('Accept', 'application/json')
+        .send(validObjectToCreate);
+      const callParams = mockedActivityRepository.createActivities.mock.lastCall;
+      const firstCallParam = callParams ? callParams[0] : null;
+      expect(firstCallParam).toEqual(validObjectToCreate);
+    });
+    it('should return object provided by the repository', async () => {
+      const { body } = await request(app)
+        .put('/api/activities/')
+        .set('Accept', 'application/json')
+        .send(validObjectToCreate);
+      expect({ ...body, _is: mongoId.toString() }).toEqual(resultObjectWithIdAsSting);
     });
   });
 });
