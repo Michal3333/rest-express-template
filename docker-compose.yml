@@ -1,0 +1,6 @@
+services:
+  api:
+    image: rest-express-app
+    build: .
+    ports:
+      - "8000:8000"

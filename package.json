@@ -10,7 +10,8 @@
     "build": "tsc",
     "lint": "eslint --fix src .eslintrc.js jest.config.js",
     "test": "jest",
-    "build_image": "npm run build && docker build ." 
+    "build_image": "npm run build && docker-compose build",
+    "start_with_compose": "docker-compose up -d"
   },
   "keywords": [],
   "author": "",
