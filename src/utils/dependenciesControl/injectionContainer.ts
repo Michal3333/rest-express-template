@@ -1,4 +1,4 @@
-import ActivityRepositoryInterface from '../../interfaces/activitiesRepository.interface';
+import { PossibleDependencies } from './dependenciesSetup';
 
 class Container {
   private static registry: Map<PossibleDependenciesKeys,
@@ -43,10 +43,6 @@ export interface DependencyCreator {
 
 type ConvertPropsToOptional<T> = {
   [Key in keyof T]?: T[Key]
-};
-
-export type PossibleDependencies = {
-  ActivityRepository: ActivityRepositoryInterface,
 };
 
 export type PossibleDependenciesKeys = keyof PossibleDependencies;
