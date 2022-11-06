@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "production": "node dist/index.js",
     "start": "ts-node src/index.ts",
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "lint": "eslint --fix src .eslintrc.js jest.config.js",
-    "test": "jest"
+    "test": "jest",
+    "build_image": "npm run build && docker build ." 
   },
   "keywords": [],
   "author": "",
