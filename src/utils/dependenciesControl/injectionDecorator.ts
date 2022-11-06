@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Container, { PossibleDependenciesKeys, PossibleDependencies } from './injectionContainer';
+import Container, { PossibleDependenciesKeys } from './injectionContainer';
 
 export const injectable = () => <T extends { new (...args: any[]): {} }>(
   constructor: T): T | void => class extends constructor {
