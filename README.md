@@ -9,7 +9,7 @@ This is a simple template for REST API in express with TypeScript and MongoDB.
 - `npm run test` - to run tests
 - `npm run lint` - to run linter
 - `npm run build_image` - to build docker image
-- `npm run start_with_compose` - to the run the app with docker
+- `npm run start_with_compose` - to run the app with docker
 
 ## Additional setup information
 This template uses a simple custom dependency container that is initially configured with `activityRepository` created by `MongoCreator`, which provides access to the mongo database. 
