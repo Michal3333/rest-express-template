@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import ActivityRepositoryInterface from '../../interfaces/activitiesRepository.interface';
+import ActivityRepositoryInterface from '../../interfaces/activitiesRepo.interface';
 import ParamsWithId from '../../interfaces/paramsWithId.interface';
 import { injectable, inject } from '../../utils/dependenciesControl/injectionDecorator';
 import Activity, { ActivityWithId } from './activities.model';
