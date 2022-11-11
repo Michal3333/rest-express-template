@@ -1,4 +1,4 @@
-import ActivityRepositoryInterface from '../../interfaces/activitiesRepository.interface';
+import ActivityRepositoryInterface from '../../interfaces/activitiesRepo.interface';
 
 export type PossibleDependencies = {
   ActivityRepository: ActivityRepositoryInterface,
