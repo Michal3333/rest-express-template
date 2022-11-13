@@ -5,7 +5,7 @@ This is a simple template for REST API in express with TypeScript and MongoDB.
 
 You can clone this template using a [CLI](https://github.com/Michal3333/create-node-restapi), which additionally installs dependencies and creates a .env file.
 ```sh
-npx create-node-restapi name-of-directory
+npx create-node-restapi
 ```
 Before running any of the commands listed below, add the required values to the .env file (in case you were using provided CLI, the .env file was already created. Otherwise, you have to add it on your own, based on the .env.sample file).
 
